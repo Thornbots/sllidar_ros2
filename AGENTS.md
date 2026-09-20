@@ -37,3 +37,10 @@ result: `../isaac_ros_common/scripts/dexec.sh -- ros2 pkg prefix sllidar_ros2`
 Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 `/scan` belong to `../thornbots_pkg`; odometry from scans belongs to
 `../rf2o_laser_odometry`.
+
+## Committing
+
+This package is a submodule of `thornbots_workspace`, on branch `main`. Commit
+and push here first, then bump this gitlink in `../` — one logical change, one
+bump, never a gitlink pointing at an unpushed commit. Full rule in
+`../CLAUDE.md` § Packages.
