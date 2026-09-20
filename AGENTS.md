@@ -26,28 +26,14 @@ result: `../isaac_ros_common/scripts/dexec.sh -- ros2 pkg prefix sllidar_ros2`
 ## Thornbots changes to upstream
 
 - `launch/sllidar_a2m8_launch.py`: `scan_mode` default `Sensitivity` → `Boost`.
-- `scripts/rplidar.rules` and `scripts/hotplug-rplidar.sh`: added, adapted from
-  Isaac ROS's RealSense hotplug pair. They give the lidar a stable `/dev/rplidar`
-  symlink and mode 0666 so the container can open it without root.
+- `scripts/rplidar.rules`: rewritten to match on the USB subsystem and set mode
+  0666 / group `plugdev`, so a non-root user can open the lidar. Host-side only.
+  The container's copy, with the hotplug hook, is authoritative and lives in
+  `../isaac_ros_common/docker/udev_rules/98-rplidar.rules`.
+- `scripts/create_udev_rules.sh`: `colcon_cd rplidar_ros2` → `sllidar_ros2`.
 
 ## Scope
 
 Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 `/scan` belong to `../thornbots_pkg`; odometry from scans belongs to
 `../rf2o_laser_odometry`.
-
-## Open
-
-- **`scripts/create_udev_rules.sh` runs `colcon_cd rplidar_ros2`**, which is the
-  old upstream package name and does not exist here. The script fails at that
-  line, so it has never installed anything; the rules must be copied by hand.
-  Should be `colcon_cd sllidar_ros2`.
-- **The udev rule and hotplug script exist twice and have diverged.**
-  `../isaac_ros_common/docker/udev_rules/98-rplidar.rules` still passes
-  `-M '%M' -m '%m'`; this copy dropped them. Neither copy is installed by any
-  Dockerfile. Pick one as authoritative before relying on hotplug.
-- **`hotplug-rplidar.sh`'s `add` branch is dead as currently invoked.** Without
-  `-M`/`-m` it would `mknod` with empty major/minor, but it only reaches that
-  call when the device node is missing, which udev has already created. Confirm
-  whether the script is needed at all or whether the `SYMLINK`/`MODE` rule is
-  doing the whole job.
