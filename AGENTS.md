@@ -38,6 +38,12 @@ Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 `/scan` belong to `../thornbots_pkg`; odometry from scans belongs to
 `../rf2o_laser_odometry`.
 
+## Open
+
+- **Jazzy needs `CMAKE_CXX_STANDARD 17`** (it is 14). Kernel 6.8 on
+  JetPack 7.2 may enumerate the USB serial port differently.
+  `../JAZZY_PLAN.md`.
+
 ## Committing
 
 This package is a submodule of `thornbots_workspace`, on branch `main`. Commit
