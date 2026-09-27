@@ -40,10 +40,10 @@ Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 
 ## Open
 
-- **Jazzy (`jazzy` branch):** builds on `ros:jazzy` with C++17; the only
-  warnings are upstream SDK noise under `sdk/`. Untested on hardware: kernel
-  6.8 on JetPack 7.2 may enumerate the USB serial port differently.
-  `../JAZZY_PLAN.md`.
+- **Jazzy (this branch):** builds with C++17; the only warnings are
+  upstream SDK noise under `sdk/`. Untested on hardware: kernel 6.8 on
+  JetPack 7.2 may enumerate the USB serial port differently
+  (`../JAZZY_PLAN.md` step 5).
 
 ## Committing
 
