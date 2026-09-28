@@ -31,6 +31,9 @@ result: `../isaac_ros_common/scripts/dexec.sh -- ros2 pkg prefix sllidar_ros2`
   The container's copy, with the hotplug hook, is authoritative and lives in
   `../isaac_ros_common/docker/udev_rules/98-rplidar.rules`.
 - `scripts/create_udev_rules.sh`: `colcon_cd rplidar_ros2` → `sllidar_ros2`.
+- `CMakeLists.txt`/`package.xml`: `ament_lint_auto` tests, with every upstream
+  file excluded, so `colcon test` lints only what we add. Two whitespace fixes
+  and `FILE(` → `file(` in upstream's CMake lines, for `lint_cmake`.
 
 ## Scope
 
