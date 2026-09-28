@@ -20,7 +20,7 @@ endif()
 
 set(SLLIDAR_SDK_PATH "./sdk/")
 
-FILE(GLOB SLLIDAR_SDK_SRC 
+file(GLOB SLLIDAR_SDK_SRC
   "${SLLIDAR_SDK_PATH}/src/arch/linux/*.cpp"
   "${SLLIDAR_SDK_PATH}/src/hal/*.cpp"
   "${SLLIDAR_SDK_PATH}/src/*.cpp"
@@ -45,7 +45,7 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
 )
 
-add_executable(sllidar_node	src/sllidar_node.cpp ${SLLIDAR_SDK_SRC})
+add_executable(sllidar_node src/sllidar_node.cpp ${SLLIDAR_SDK_SRC})
 # target_link_libraries(sllidar_node ${ament_cmake_LIBRARIES})
 ament_target_dependencies(sllidar_node
   rclcpp
@@ -78,4 +78,23 @@ ament_export_dependencies(rclcpp)
 ament_export_dependencies(std_msgs)
 ament_export_dependencies(sensor_msgs)
 ament_export_include_directories(include)
+
+if(BUILD_TESTING)
+  # Lint only Thornbots files: Slamtec's sdk/, src/ and launch/ stay as upstream
+  # ships them, so merges from Slamtec stay clean. see AGENTS.md
+  file(GLOB_RECURSE _upstream RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    sdk/*
+    src/sllidar_node.cpp
+    src/sllidar_client.cpp
+    launch/*sllidar_*.py
+  )
+  # flake8 splits excludes on whitespace, so "sllidar_a2m12_launch .py" needs a pattern.
+  set(AMENT_LINT_AUTO_FILE_EXCLUDE ${_upstream} "launch/sllidar_a2m12_launch*")
+  # No Thornbots C++ or license headers here yet; re-enable these if that changes.
+  set(AMENT_LINT_AUTO_EXCLUDE
+    ament_cmake_copyright ament_cmake_cppcheck ament_cmake_cpplint ament_cmake_uncrustify)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 ament_package()
