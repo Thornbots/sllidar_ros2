@@ -45,7 +45,7 @@ Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 
 - **Jazzy (this branch):** builds with C++17; the only warnings are
   upstream SDK noise under `sdk/`. Robot validation, including serial
-  enumeration and scan checks: [hardware status](../JAZZY_PLAN.md#hardware-status).
+  enumeration and scan checks: [hardware status](../JAZZY_FLASH.md#hardware-status).
 
 ## Committing
 
