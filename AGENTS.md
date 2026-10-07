@@ -44,9 +44,8 @@ Driver and SDK only. Frame conventions, scan filtering, and anything consuming
 ## Open
 
 - **Jazzy (this branch):** builds with C++17; the only warnings are
-  upstream SDK noise under `sdk/`. Untested on hardware: kernel 6.8 on
-  JetPack 7.2 may enumerate the USB serial port differently
-  (`../JAZZY_PLAN.md` step 5).
+  upstream SDK noise under `sdk/`. Robot validation, including serial
+  enumeration and scan checks: [hardware status](../JAZZY_PLAN.md#hardware-status).
 
 ## Committing
 
