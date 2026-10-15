@@ -16,4 +16,4 @@ lint-only CMake/`package.xml` edits.
 
 ## Open
 
-Serial enumeration and scan acceptance: [hardware status](../JAZZY_FLASH.md#hardware-status).
+Serial enumeration and scan acceptance: [hardware status](../docs/JAZZY_FLASH.md#hardware-status).
