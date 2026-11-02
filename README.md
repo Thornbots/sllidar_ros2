@@ -80,8 +80,8 @@ SLAMTEC LIDAR Tutorial: <https://github.com/robopeak/rplidar_ros/wiki>
     It's convenientif the ROS2 environment variables are automatically added to your bash session every time a new shell is launched:
 
     ```bash
-    $echo "source <your_own_ros2_ws>/install/setup.bash" >> ~/.bashrc
-    $source ~/.bashrc
+    echo "source <your_own_ros2_ws>/install/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
     ```
 
 4. Create udev rules for rplidar
