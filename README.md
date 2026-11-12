@@ -12,6 +12,15 @@ SLAMTEC LIDAR SDK: <https://github.com/Slamtec/rplidar_sdk>
 
 SLAMTEC LIDAR Tutorial: <https://github.com/robopeak/rplidar_ros/wiki>
 
+## Thornbots usage
+
+This fork is built as part of the workspace inside the Isaac ROS Jazzy container; follow the
+[workspace README](../README.md) instead of the standalone steps below. The robot launches
+`sllidar_node` from [`thornbots_pkg/launch/auto.launch.py`](../thornbots_pkg/launch/auto.launch.py),
+not from this package's launch files. The container's `/dev/rplidar` hotplug rule is
+[`98-rplidar.rules`](../isaac_ros_common/docker/udev_rules/98-rplidar.rules);
+`scripts/rplidar.rules` is only for a bare host.
+
 ## Supported SLAMTEC LIDAR
 
 | Lidar Model |
@@ -28,18 +37,16 @@ SLAMTEC LIDAR Tutorial: <https://github.com/robopeak/rplidar_ros/wiki>
 
 ## How to install ROS2
 
-[rolling](https://docs.ros.org/en/rolling/Installation.html),
-[humble](https://docs.ros.org/en/humble/Installation.html),
-[galactic](https://docs.ros.org/en/galactic/Installation.html),
-[foxy](https://docs.ros.org/en/foxy/Installation.html)
+[jazzy](https://docs.ros.org/en/jazzy/Installation.html),
+[rolling](https://docs.ros.org/en/rolling/Installation.html)
 
-## How to configuring your ROS 2 environment
+## How to configure your ROS 2 environment
 
-[Configuring your ROS 2 environment](https://docs.ros.org/en/foxy/Tutorials/Configuring-ROS2-Environment.html)
+[Configuring your ROS 2 environment](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html)
 
 ## How to Create a ROS2 workspace
 
-[ROS2 Tutorials Creating a workspace](https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html)
+[ROS2 Tutorials Creating a workspace](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html)
 
 1. example, choose the directory name ros2_ws, for "development workspace" :
 
@@ -56,7 +63,7 @@ SLAMTEC LIDAR Tutorial: <https://github.com/robopeak/rplidar_ros/wiki>
 
    ```bash
    git clone https://github.com/Slamtec/sllidar_ros2.git
-   ``` 
+   ```
 
 2. Build sllidar_ros2 package
 
@@ -68,37 +75,32 @@ SLAMTEC LIDAR Tutorial: <https://github.com/robopeak/rplidar_ros/wiki>
    colcon build --symlink-install
    ```
 
-   if you find output like "colcon:command not found",you need separate [install colcon](https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon) build tools.
+   If `colcon` is not found, [install colcon](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html#install-colcon).
 
 3. Package environment setup
 
-    ```bash
-    source ./install/setup.bash
-    ```
+   ```bash
+   source ~/ros2_ws/install/setup.bash
+   ```
 
-    Note: Add permanent workspace environment variables.
-    It's convenientif the ROS2 environment variables are automatically added to your bash session every time a new shell is launched:
+   To source the workspace in every new bash shell:
 
-    ```bash
-    echo 'source "$HOME/ros2_ws/install/setup.bash"' >> ~/.bashrc
-    source ~/.bashrc
-    ```
+   ```bash
+   echo 'source "$HOME/ros2_ws/install/setup.bash"' >> ~/.bashrc
+   source ~/.bashrc
+   ```
 
 4. Create udev rules for rplidar
 
-   sllidar_ros2 running requires the read and write permissions of the serial device.
-   You can manually modify it with the following command:
+   sllidar_ros2 needs read/write access to the serial device. Install the udev rule, which
+   also creates the `/dev/rplidar` symlink, then replug the lidar:
 
    ```bash
-   sudo chmod 777 /dev/ttyUSB0
+   bash ~/ros2_ws/src/sllidar_ros2/scripts/create_udev_rules.sh
    ```
 
-   But a better way is to create a udev rule:
-
-   ```bash
-   cd src/sllidar_ros2/
-   source scripts/create_udev_rules.sh
-   ```
+   For a one-off test without the rule, `sudo chmod 666 /dev/ttyUSB0` grants access until the
+   device is replugged.
 
 ## Run sllidar_ros2
 
@@ -152,6 +154,8 @@ The command for RPLIDAR S2 is :
 ros2 launch sllidar_ros2 view_sllidar_s2_launch.py
 ```
 
+The command for RPLIDAR S2E is :
+
 ```bash
 ros2 launch sllidar_ros2 view_sllidar_s2e_launch.py
 ```
@@ -161,7 +165,6 @@ The command for RPLIDAR S3 is :
 ```bash
 ros2 launch sllidar_ros2 view_sllidar_s3_launch.py
 ```
-
 
 The command for RPLIDAR T1 is :
 
@@ -179,4 +182,7 @@ Notice: different lidar use different serial_baudrate.
 
 ## RPLIDAR frame
 
-RPLIDAR frame must be broadcasted according to picture shown in rplidar-frame.png
+RPLIDAR frame must be broadcast as shown below.
+
+![RPLIDAR A1 frame](rplidar_A1.png)
+![RPLIDAR A2 frame](rplidar_A2.png)
